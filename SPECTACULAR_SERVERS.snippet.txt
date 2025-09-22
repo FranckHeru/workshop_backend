@@ -1,0 +1,5 @@
+SPECTACULAR_SETTINGS.setdefault("SERVERS", [
+    {"url": "https://api.taller.example.com", "description": "Producción"},
+    {"url": "https://staging.taller.example.com", "description": "Staging"}
+])
+SPECTACULAR_SETTINGS.setdefault("VERSION", "1.0.0")
