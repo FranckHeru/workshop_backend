@@ -2,7 +2,8 @@ openapi: 3.0.3
 info:
   title: Workshop API
   version: 1.0.0
-  description: API estable v1 para Taller Automotriz
+  description: API de taller mecánico (clientes, vehículos, órdenes de trabajo, catálogo,
+    cotizaciones).
 paths:
   /api/auth/jwt/create/:
     post:
@@ -61,24 +62,18 @@ paths:
   /api/customers/:
     get:
       operationId: api_customers_list
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       tags:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedCustomerList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
           description: ''
     post:
       operationId: api_customers_create
@@ -98,7 +93,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -120,7 +114,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -153,7 +146,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -185,7 +177,6 @@ paths:
               $ref: '#/components/schemas/PatchedCustomer'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -206,31 +197,24 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
   /api/parts/:
     get:
       operationId: api_parts_list
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       tags:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedPartList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Part'
           description: ''
     post:
       operationId: api_parts_create
@@ -250,7 +234,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -272,7 +255,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -305,7 +287,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -337,7 +318,6 @@ paths:
               $ref: '#/components/schemas/PatchedPart'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -358,7 +338,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
@@ -383,12 +362,6 @@ paths:
         description: Which field to use when ordering the results.
         schema:
           type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       - name: search
         required: false
         in: query
@@ -420,13 +393,14 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedQuotationList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quotation'
           description: ''
     post:
       operationId: api_quotations_create
@@ -448,7 +422,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -472,7 +445,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -507,7 +479,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -541,7 +512,6 @@ paths:
               $ref: '#/components/schemas/PatchedQuotation'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -564,7 +534,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
@@ -597,7 +566,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -634,7 +602,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -671,7 +638,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -710,7 +676,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -748,7 +713,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -756,173 +720,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/Quotation'
           description: ''
-  /api/schema/:
-    get:
-      operationId: api_schema_retrieve
-      description: |-
-        OpenApi3 schema for this API. Format can be selected via content negotiation.
-
-        - YAML: application/vnd.oai.openapi
-        - JSON: application/vnd.oai.openapi+json
-      parameters:
-      - in: query
-        name: format
-        schema:
-          type: string
-          enum:
-          - json
-          - yaml
-      - in: query
-        name: lang
-        schema:
-          type: string
-          enum:
-          - af
-          - ar
-          - ar-dz
-          - ast
-          - az
-          - be
-          - bg
-          - bn
-          - br
-          - bs
-          - ca
-          - ckb
-          - cs
-          - cy
-          - da
-          - de
-          - dsb
-          - el
-          - en
-          - en-au
-          - en-gb
-          - eo
-          - es
-          - es-ar
-          - es-co
-          - es-mx
-          - es-ni
-          - es-ve
-          - et
-          - eu
-          - fa
-          - fi
-          - fr
-          - fy
-          - ga
-          - gd
-          - gl
-          - he
-          - hi
-          - hr
-          - hsb
-          - hu
-          - hy
-          - ia
-          - id
-          - ig
-          - io
-          - is
-          - it
-          - ja
-          - ka
-          - kab
-          - kk
-          - km
-          - kn
-          - ko
-          - ky
-          - lb
-          - lt
-          - lv
-          - mk
-          - ml
-          - mn
-          - mr
-          - ms
-          - my
-          - nb
-          - ne
-          - nl
-          - nn
-          - os
-          - pa
-          - pl
-          - pt
-          - pt-br
-          - ro
-          - ru
-          - sk
-          - sl
-          - sq
-          - sr
-          - sr-latn
-          - sv
-          - sw
-          - ta
-          - te
-          - tg
-          - th
-          - tk
-          - tr
-          - tt
-          - udm
-          - ug
-          - uk
-          - ur
-          - uz
-          - vi
-          - zh-hans
-          - zh-hant
-      tags:
-      - api
-      security:
-      - jwtAuth: []
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/vnd.oai.openapi:
-              schema:
-                type: object
-                additionalProperties: {}
-            application/yaml:
-              schema:
-                type: object
-                additionalProperties: {}
-            application/vnd.oai.openapi+json:
-              schema:
-                type: object
-                additionalProperties: {}
-            application/json:
-              schema:
-                type: object
-                additionalProperties: {}
-          description: ''
   /api/services/:
     get:
       operationId: api_services_list
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       tags:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedServiceList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
           description: ''
     post:
       operationId: api_services_create
@@ -942,7 +754,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -964,7 +775,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -997,7 +807,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1029,7 +838,6 @@ paths:
               $ref: '#/components/schemas/PatchedService'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1050,31 +858,24 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
   /api/vehicles/:
     get:
       operationId: api_vehicles_list
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       tags:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedVehicleList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
           description: ''
     post:
       operationId: api_vehicles_create
@@ -1094,7 +895,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -1116,7 +916,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1149,7 +948,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1181,7 +979,6 @@ paths:
               $ref: '#/components/schemas/PatchedVehicle'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1202,31 +999,24 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
   /api/workorders/:
     get:
       operationId: api_workorders_list
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
       tags:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedWorkOrderList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkOrder'
           description: ''
     post:
       operationId: api_workorders_create
@@ -1246,7 +1036,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '201':
           content:
@@ -1268,7 +1057,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1301,7 +1089,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1333,7 +1120,6 @@ paths:
               $ref: '#/components/schemas/PatchedWorkOrder'
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '200':
           content:
@@ -1354,7 +1140,6 @@ paths:
       - api
       security:
       - jwtAuth: []
-      - cookieAuth: []
       responses:
         '204':
           description: No response body
@@ -1382,144 +1167,6 @@ components:
       required:
       - id
       - name
-    PaginatedCustomerList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Customer'
-    PaginatedPartList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Part'
-    PaginatedQuotationList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Quotation'
-    PaginatedServiceList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Service'
-    PaginatedVehicleList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Vehicle'
-    PaginatedWorkOrderList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkOrder'
     Part:
       type: object
       properties:
@@ -1971,6 +1618,7 @@ components:
           readOnly: true
         refresh:
           type: string
+          writeOnly: true
       required:
       - access
       - refresh
@@ -2075,18 +1723,7 @@ components:
         * `DONE` - Finalizada
         * `CANCELLED` - Cancelada
   securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: sessionid
     jwtAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-servers:
-- url: https://api.taller.example.com
-  description: Prod
-- url: https://staging.taller.example.com
-  description: Staging
-- url: http://localhost:8000
-  description: Local
