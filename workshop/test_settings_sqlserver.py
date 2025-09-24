@@ -1,3 +1,4 @@
+﻿import os
 # workshop/test_settings_sqlserver.py
 from .settings import *  # importa tu settings base del proyecto
 
@@ -13,7 +14,7 @@ DATABASES = {
         "ENGINE": "mssql",  # con el paquete mssql-django
         "NAME": "test_WorkshopDB",
         "USER": "sa",
-        "PASSWORD": "WolfIT2025$%&",
+        "PASSWORD": os.environ.get("DB_PASSWORD") or os.environ.get("WORKSHOP_SQL_SA_PWD"),
         "HOST": r"192.168.3.20\APPSGS",  # OJO: doble backslash si editas en string normal
         "PORT": "",
         "OPTIONS": {
@@ -31,3 +32,4 @@ DATABASES = {
 from .settings_flags import *
 
 # Si tus tests usan cache/email/etc. y quieres que no “ensucien” nada, puedes dejar lo que tengas por defecto
+

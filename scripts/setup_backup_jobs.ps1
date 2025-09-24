@@ -19,7 +19,7 @@ $BackupDir  = 'C:\Program Files\Microsoft SQL Server\MSSQL15.APPSGS\MSSQL\Backup
 $Server   = 'tcp:192.168.3.20,50222'
 $DbName   = 'WorkshopDB'
 $User     = 'sa'
-$Password = 'WolfIT2025$%&'   # ← según pediste
+[Environment]::GetEnvironmentVariable('WORKSHOP_SQL_SA_PWD','Machine')   # ← según pediste
 
 # Rutas de scripts existentes
 $BackupScript  = Join-Path $ScriptsDir 'sql_backup_v2.ps1'   # ya lo tienes
@@ -158,4 +158,5 @@ Get-ChildItem -Path (Join-Path $BackupDir 'WorkshopDB_*.bak') -File -ErrorAction
   Sort-Object LastWriteTime -Descending |
   Select-Object -First 1 Name,Length,LastWriteTime |
   Format-Table -AutoSize
+
 

@@ -8,3 +8,4 @@ DATABASES["default"]["PASSWORD"] = (
     or os.environ.get("WORKSHOP_SQL_SA_PWD")
     or ""
 )
+

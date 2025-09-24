@@ -16,3 +16,11 @@ __pycache__/
 
 # OS
 Thumbs.db
+.env.*.local
+db.sqlite3
+.coverage
+.pytest_cache/
+staticfiles/
+*.mdf
+*.ldf
+*.bak
