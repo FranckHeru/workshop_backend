@@ -1,0 +1,15 @@
+/* Jazzmin – overrides de marca */
+/* Fondo en login */
+body.login-page, .auth-page, .login-box, body[class*="login"] {
+  background: url("/static/img/login_bg.5e483f2f75b9.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+/* Caja legible sobre el fondo */
+.jazzmin-login .card, .login-page .card {
+  background-color: rgba(255,255,255,0.92) !important;
+}
+/* Logo del header un poco más compacto si es grande */
+.brand-link .brand-image {
+  object-fit: contain;
+  max-height: 36px;
+}

@@ -1,15 +1,18 @@
-﻿__pycache__/
-*.py[cod]
-*.log
-logs/
-backups/
-staticfiles/
-dist/
-.venv*/
+﻿# Envs
 .env
 .env.*
-*.sqlite3
-*.coverage
-.pytest_cache/
-.vscode/
-.idea/
+!.env.*.example
+
+# Builds / caches / logs
+dist/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.zip
+.venv/
+.venv_x64/
+
+# OS
+Thumbs.db

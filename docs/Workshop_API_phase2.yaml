@@ -1,0 +1,1750 @@
+openapi: 3.0.3
+info:
+  title: Workshop API
+  version: 1.0.0
+  description: API de taller mecánico (clientes, vehículos, órdenes de trabajo, catálogo,
+    cotizaciones).
+paths:
+  /api/auth/jwt/create/:
+    post:
+      operationId: api_auth_jwt_create_create
+      description: 'Takes a set of user credentials and returns an access and refresh
+        JSON web
+
+        token pair to prove the authentication of those credentials.'
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/auth/jwt/refresh/:
+    post:
+      operationId: api_auth_jwt_refresh_create
+      description: 'Takes a refresh type JSON web token and returns an access type
+        JSON web
+
+        token if the refresh token is valid.'
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/customers/:
+    get:
+      operationId: api_customers_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+          description: ''
+    post:
+      operationId: api_customers_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+  /api/customers/{id}/:
+    get:
+      operationId: api_customers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this customer.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    put:
+      operationId: api_customers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this customer.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    patch:
+      operationId: api_customers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this customer.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    delete:
+      operationId: api_customers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this customer.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/parts/:
+    get:
+      operationId: api_parts_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Part'
+          description: ''
+    post:
+      operationId: api_parts_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Part'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Part'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Part'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Part'
+          description: ''
+  /api/parts/{id}/:
+    get:
+      operationId: api_parts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this part.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Part'
+          description: ''
+    put:
+      operationId: api_parts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this part.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Part'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Part'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Part'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Part'
+          description: ''
+    patch:
+      operationId: api_parts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this part.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPart'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Part'
+          description: ''
+    delete:
+      operationId: api_parts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this part.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/quotations/:
+    get:
+      operationId: api_quotations_list
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      parameters:
+      - in: query
+        name: created_at
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: customer
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          title: Estado
+          enum:
+          - APPROVED
+          - DRAFT
+          - EXPIRED
+          - REJECTED
+          - SENT
+        description: '* `DRAFT` - Borrador
+
+          * `SENT` - Enviada
+
+          * `APPROVED` - Aprobada
+
+          * `REJECTED` - Rechazada
+
+          * `EXPIRED` - Vencida'
+      - in: query
+        name: vehicle
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quotation'
+          description: ''
+    post:
+      operationId: api_quotations_create
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/quotations/{id}/:
+    get:
+      operationId: api_quotations_retrieve
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+    put:
+      operationId: api_quotations_update
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+    patch:
+      operationId: api_quotations_partial_update
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuotation'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+    delete:
+      operationId: api_quotations_destroy
+      description: API para Cotizaciones, con filtros/búsquedas/orden y acciones de
+        negocio.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/quotations/{id}/approve/:
+    post:
+      operationId: api_quotations_approve_create
+      description: 'Pone la cotización en estado APPROVED.
+
+        Requiere permiso: quotes.approve_quotation'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/quotations/{id}/reject/:
+    post:
+      operationId: api_quotations_reject_create
+      description: 'Pone la cotización en estado REJECTED.
+
+        Requiere permiso: quotes.reject_quotation'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/quotations/{id}/send/:
+    post:
+      operationId: api_quotations_send_create
+      description: 'Pone la cotización en estado SENT (enviada al cliente).
+
+        Requiere permiso: quotes.send_quotation'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/quotations/{id}/set_status/:
+    post:
+      operationId: api_quotations_set_status_create
+      description: 'Cambia el estado a un valor arbitrario recibido en el body:
+
+        { "status": "<nuevo_estado>" }
+
+        - Si el modelo tiene choices, se valida contra esas choices.
+
+        (Este endpoint en general se protege con permisos de cambio del modelo)'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/quotations/{id}/to-workorder/:
+    post:
+      operationId: api_quotations_to_workorder_create
+      description: 'Crea una WorkOrder a partir de la cotización APROBADA.
+
+        Copia líneas y precios 1:1. Requiere apps: workorders, catalog.
+
+        Requiere permiso: quotes.convert_quotation_to_workorder'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this quotation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quotation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotation'
+          description: ''
+  /api/services/:
+    get:
+      operationId: api_services_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+          description: ''
+    post:
+      operationId: api_services_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+  /api/services/{id}/:
+    get:
+      operationId: api_services_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    put:
+      operationId: api_services_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    patch:
+      operationId: api_services_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedService'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+    delete:
+      operationId: api_services_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/vehicles/:
+    get:
+      operationId: api_vehicles_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+          description: ''
+    post:
+      operationId: api_vehicles_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+  /api/vehicles/{id}/:
+    get:
+      operationId: api_vehicles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehicle.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    put:
+      operationId: api_vehicles_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehicle.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    patch:
+      operationId: api_vehicles_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehicle.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    delete:
+      operationId: api_vehicles_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehicle.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/workorders/:
+    get:
+      operationId: api_workorders_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkOrder'
+          description: ''
+    post:
+      operationId: api_workorders_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkOrder'
+          description: ''
+  /api/workorders/{id}/:
+    get:
+      operationId: api_workorders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this work order.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkOrder'
+          description: ''
+    put:
+      operationId: api_workorders_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this work order.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkOrder'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkOrder'
+          description: ''
+    patch:
+      operationId: api_workorders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this work order.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkOrder'
+          description: ''
+    delete:
+      operationId: api_workorders_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this work order.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        phone:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        address:
+          type: string
+          maxLength: 255
+      required:
+      - id
+      - name
+    Part:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        sku:
+          type: string
+          maxLength: 60
+        name:
+          type: string
+          maxLength: 150
+        unit:
+          type: string
+          maxLength: 10
+        stock:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        cost:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - id
+      - name
+      - sku
+    PatchedCustomer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        phone:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        address:
+          type: string
+          maxLength: 255
+    PatchedPart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        sku:
+          type: string
+          maxLength: 60
+        name:
+          type: string
+          maxLength: 150
+        unit:
+          type: string
+          maxLength: 10
+        stock:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        cost:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedQuotation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationService'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationPart'
+        subtotal_services:
+          type: string
+          readOnly: true
+        subtotal_parts:
+          type: string
+          readOnly: true
+        total:
+          type: string
+          description: 'Total para UI = subtotal_services + subtotal_parts - discount_total
+            + tax_total
+
+            (Mantenemos en sync con el cálculo del modelo.)'
+          readOnly: true
+        number:
+          type: string
+          title: Número
+          maxLength: 20
+        status:
+          allOf:
+          - $ref: '#/components/schemas/QuotationStatusEnum'
+          title: Estado
+        notes:
+          type: string
+          title: Notas
+        valid_until:
+          type: string
+          format: date
+          nullable: true
+          title: Válida hasta
+        discount_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        tax_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        grand_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          title: Cliente
+        vehicle:
+          type: integer
+          nullable: true
+          title: Vehículo
+    PatchedService:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        labor_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedVehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        owner:
+          type: integer
+        plate:
+          type: string
+          maxLength: 20
+        vin:
+          type: string
+          nullable: true
+          maxLength: 50
+        brand:
+          type: string
+          maxLength: 50
+        model:
+          type: string
+          maxLength: 50
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        color:
+          type: string
+          nullable: true
+          maxLength: 30
+        mileage_km:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedWorkOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        number:
+          type: string
+          maxLength: 20
+        status:
+          $ref: '#/components/schemas/WorkOrderStatusEnum'
+        complaint:
+          type: string
+          nullable: true
+        diagnosis:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        opened_at:
+          type: string
+          format: date-time
+          readOnly: true
+        closed_at:
+          type: string
+          format: date-time
+          nullable: true
+        customer:
+          type: integer
+        vehicle:
+          type: integer
+    Quotation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationService'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuotationPart'
+        subtotal_services:
+          type: string
+          readOnly: true
+        subtotal_parts:
+          type: string
+          readOnly: true
+        total:
+          type: string
+          description: 'Total para UI = subtotal_services + subtotal_parts - discount_total
+            + tax_total
+
+            (Mantenemos en sync con el cálculo del modelo.)'
+          readOnly: true
+        number:
+          type: string
+          title: Número
+          maxLength: 20
+        status:
+          allOf:
+          - $ref: '#/components/schemas/QuotationStatusEnum'
+          title: Estado
+        notes:
+          type: string
+          title: Notas
+        valid_until:
+          type: string
+          format: date
+          nullable: true
+          title: Válida hasta
+        discount_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        tax_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        grand_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          title: Cliente
+        vehicle:
+          type: integer
+          nullable: true
+          title: Vehículo
+      required:
+      - created_at
+      - customer
+      - id
+      - number
+      - subtotal_parts
+      - subtotal_services
+      - total
+      - updated_at
+    QuotationPart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        part:
+          type: integer
+        quantity:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        line_total:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - line_total
+      - part
+      - unit_price
+    QuotationService:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        service:
+          type: integer
+        quantity:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        line_total:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - line_total
+      - service
+      - unit_price
+    QuotationStatusEnum:
+      enum:
+      - DRAFT
+      - SENT
+      - APPROVED
+      - REJECTED
+      - EXPIRED
+      type: string
+      description: '* `DRAFT` - Borrador
+
+        * `SENT` - Enviada
+
+        * `APPROVED` - Aprobada
+
+        * `REJECTED` - Rechazada
+
+        * `EXPIRED` - Vencida'
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        labor_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - code
+      - id
+      - name
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        owner:
+          type: integer
+        plate:
+          type: string
+          maxLength: 20
+        vin:
+          type: string
+          nullable: true
+          maxLength: 50
+        brand:
+          type: string
+          maxLength: 50
+        model:
+          type: string
+          maxLength: 50
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        color:
+          type: string
+          nullable: true
+          maxLength: 30
+        mileage_km:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - brand
+      - created_at
+      - id
+      - model
+      - owner
+      - plate
+      - updated_at
+      - year
+    WorkOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        number:
+          type: string
+          maxLength: 20
+        status:
+          $ref: '#/components/schemas/WorkOrderStatusEnum'
+        complaint:
+          type: string
+          nullable: true
+        diagnosis:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        opened_at:
+          type: string
+          format: date-time
+          readOnly: true
+        closed_at:
+          type: string
+          format: date-time
+          nullable: true
+        customer:
+          type: integer
+        vehicle:
+          type: integer
+      required:
+      - customer
+      - id
+      - number
+      - opened_at
+      - vehicle
+    WorkOrderStatusEnum:
+      enum:
+      - OPEN
+      - IN_PROGRESS
+      - DONE
+      - CANCELLED
+      type: string
+      description: '* `OPEN` - Abierta
+
+        * `IN_PROGRESS` - En proceso
+
+        * `DONE` - Finalizada
+
+        * `CANCELLED` - Cancelada'
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

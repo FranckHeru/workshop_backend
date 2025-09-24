@@ -1,0 +1,37 @@
+/* ===== Jazzmin: overrides responsivos de marca ===== */
+
+/* Login: fondo */
+body.login-page, .auth-page, .login-box, body[class*="login"] {
+  background: url("/static/img/login_bg.5e483f2f75b9.jpg") center center / cover no-repeat fixed !important;
+}
+
+/* Login: logo escalable */
+.login-logo img, .auth-page .login-logo img {
+  max-width: 260px !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Sidebar/Header: logo compacto y responsivo */
+.brand-link .brand-image,
+.main-header .navbar-brand img,
+.brand-image-xl {
+  height: 36px !important;
+  width: auto !important;
+  max-width: 180px !important;
+  object-fit: contain !important;
+}
+.sidebar .brand-link { padding: .5rem .8rem !important; }
+.brand-text { font-size: 1rem !important; }
+
+/* Tarjeta de login sobre fondo */
+.jazzmin-login .card, .login-page .card {
+  background-color: rgba(0,0,0,0.35) !important; /* tema oscuro */
+  backdrop-filter: blur(1px);
+}
+.jazzmin-login .card .card-body, .login-page .card .card-body {
+  background-color: rgba(40,40,40,0.15) !important;
+}
+
+/* Asegurar que el contenido principal mantenga contrastes */
+.content-wrapper { background-color: #2f3640 !important; }

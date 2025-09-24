@@ -1,0 +1,44 @@
+### AUTH
+POST http://127.0.0.1:8000/api/auth/jwt/create/
+Content-Type: application/json
+
+{"username":"asesor_test","password":"asesor123"}
+
+### Use the access token from previous response
+@access = REPLACE_WITH_ACCESS
+
+### CUSTOMERS
+GET http://127.0.0.1:8000/api/customers
+Authorization: Bearer {access}
+
+POST http://127.0.0.1:8000/api/customers
+Authorization: Bearer {access}
+Content-Type: application/json
+
+{"name":"Cliente Demo","email":"demo@example.com","phone":"7777-7777"}
+
+### VEHICLES
+GET http://127.0.0.1:8000/api/vehicles
+Authorization: Bearer {access}
+
+POST http://127.0.0.1:8000/api/vehicles
+Authorization: Bearer {access}
+Content-Type: application/json
+
+{"plate":"P123-456","brand":"Toyota","model":"Corolla","year":2020}
+
+### WORKORDERS
+GET http://127.0.0.1:8000/api/workorders
+Authorization: Bearer {access}
+
+POST http://127.0.0.1:8000/api/workorders
+Authorization: Bearer {access}
+Content-Type: application/json
+
+{"customer":1,"vehicle":1,"status":"OPEN"}
+
+### OPENAPI
+GET http://127.0.0.1:8000/api/schema
+
+### SWAGGER UI (abre en navegador)
+GET http://127.0.0.1:8000/api/schema/swagger-ui

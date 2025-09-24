@@ -1,0 +1,42 @@
+Fase 2 – Auditoría
+Proyecto: C:\Taller\workshop_backend\backend
+
+=== APPS / DRF / Swagger ===
+[OK] rest_framework presente
+[OK] django_filters presente
+[OK] drf_spectacular presente
+[OK] corsheaders presente
+[OK] quotes presente
+
+=== RUTAS (OpenAPI/JWT) ===
+[OK] OpenAPI schema: /api/schema/
+[OK] Swagger UI: /api/schema/swagger-ui/
+[OK] ReDoc: /api/schema/redoc/
+[OK] JWT create: /api/auth/jwt/create/ (name=jwt-create)
+[OK] JWT refresh: /api/auth/jwt/refresh/ (name=jwt-refresh)
+
+=== PERMISOS FINOS (quotes) y grupos ===
+[OK] perm quotes.send_quotation
+[OK] perm quotes.approve_quotation
+[OK] perm quotes.reject_quotation
+[OK] perm quotes.convert_quotation_to_workorder
+[OK] grupo Admin
+[OK] Admin ⇒ quotes.send_quotation
+[OK] Admin ⇒ quotes.approve_quotation
+[OK] Admin ⇒ quotes.reject_quotation
+[OK] Admin ⇒ quotes.convert_quotation_to_workorder
+[OK] grupo Asesor
+[OK] Asesor ⇒ quotes.send_quotation
+[OK] Asesor ⇒ quotes.approve_quotation
+[OK] Asesor ⇒ quotes.reject_quotation
+[OK] Asesor ⇒ quotes.convert_quotation_to_workorder
+
+=== QUOTES (ViewSet/Permisos por acción) ===
+[OK] ViewSet action .approve
+[OK] ViewSet action .reject
+[OK] ViewSet action .send
+[OK] ViewSet action .to_workorder
+[OK] permission_classes en QuotationViewSet: <rest_framework.permissions.OperandHolder object at 0x00000249387886E0>
+
+=== OpenAPI Schema (export) ===
+[OK] Schema YAML exportado: C:\Taller\workshop_backend\backend\docs\Workshop_API_phase2.yaml

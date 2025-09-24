@@ -1,0 +1,56 @@
+Fase 1 – Auditoría rápida
+Proyecto: C:\Taller\workshop_backend\backend
+
+=== INSTALLED_APPS ===
+[OK] jazzmin presente
+[OK] rest_framework presente
+[OK] django_filters presente
+[OK] core presente
+[OK] customers presente
+[OK] vehicles presente
+[OK] catalog presente
+[OK] quotes presente
+[OK] workorders presente
+
+=== STATIC & JAZZMIN ===
+[OK] STATICFILES_DIRS = ['C:\\Taller\\workshop_backend\\backend\\static']
+[OK] /static/img/login_logo.png
+[OK] /static/img/login_bg.png
+[OK] /static/css/admin_overrides.css
+[OK] /static/js/admin_overrides.js
+[OK] JAZZMIN_SETTINGS.custom_css = 'css/admin_overrides.css'
+[OK] JAZZMIN_SETTINGS.custom_js = ['js/admin_overrides.js', 'js/selector_extras.js']
+[OK] Incluye js/selector_extras.js en custom_js
+[OK] /static/js/selector_extras.js
+[OK] X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+=== PERMISOS Y GRUPOS ===
+[OK] perm quotes.send_quotation
+[OK] perm quotes.approve_quotation
+[OK] perm quotes.reject_quotation
+[OK] perm quotes.convert_quotation_to_workorder
+[OK] grupo Admin
+[OK] grupo Asesor
+[OK] grupo Mecanico
+[OK] Admin ⇒ quotes.send_quotation
+[OK] Admin ⇒ quotes.approve_quotation
+[OK] Admin ⇒ quotes.reject_quotation
+[OK] Admin ⇒ quotes.convert_quotation_to_workorder
+[OK] Asesor ⇒ quotes.send_quotation
+[OK] Asesor ⇒ quotes.approve_quotation
+[OK] Asesor ⇒ quotes.reject_quotation
+[OK] Asesor ⇒ quotes.convert_quotation_to_workorder
+
+=== QUOTES (modelo/acciones) ===
+[OK] quotes.models.Quotation import OK
+[OK] Quotation.number
+[OK] Quotation.status
+[OK] Quotation.created_at
+[OK] Quotation.updated_at
+[OK] Quotation.recalc_totals()
+[OK] STATUS_CHOICES
+[OK] quotes.views.QuotationViewSet import OK
+[OK] ViewSet action .approve
+[OK] ViewSet action .reject
+[OK] ViewSet action .send
+[OK] ViewSet action .to_workorder

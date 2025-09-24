@@ -74,7 +74,7 @@ if (-not (Test-Path $SmokeScript)) {
 param(
   [string]$Server    = "$Server",
   [string]$User      = "$User",
-  [string]$Password  = "$Password",
+  [string]$Password  =  [Environment]::GetEnvironmentVariable("WORKSHOP_SQL_SA_PWD","Machine"),
   [string]$BackupDir = "$BackupDir"
 )
 \$latest = Get-ChildItem -Path \$BackupDir -Filter 'WorkshopDB_*.bak' -File |
@@ -158,3 +158,4 @@ Get-ChildItem -Path (Join-Path $BackupDir 'WorkshopDB_*.bak') -File -ErrorAction
   Sort-Object LastWriteTime -Descending |
   Select-Object -First 1 Name,Length,LastWriteTime |
   Format-Table -AutoSize
+
